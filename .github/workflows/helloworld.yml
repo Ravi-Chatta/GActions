@@ -1,32 +1,27 @@
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: hello-deployment
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        run: hello-world
-    spec:
-      containers:
-      - name: hello
-        image: nginxdemos/hello:latest
-        ports:
-        - containerPort: 80
+# Default values for hello-world.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-service
-  labels:
-    run: hello-world
-spec:
-  type: NodePort
-  ports:
-  - port: 80
-    protocol: TCP
-  selector:
-    run: hello-world
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 80
